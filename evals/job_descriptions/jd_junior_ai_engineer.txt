@@ -1,0 +1,15 @@
+Junior AI Engineer — Acme AI
+
+Required skills:
+- Strong Python
+- Experience with an agent framework (LangGraph, OpenAI Agents SDK)
+- REST API development (FastAPI a plus)
+- Structured outputs / Pydantic
+- Git
+
+Preferred:
+- RAG and vector databases
+- Evaluation / testing of LLM systems
+- Docker and cloud deployment
+
+Experience: 0-2 years.

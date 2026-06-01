@@ -1,0 +1,17 @@
+Computer Vision Engineer — Embedded AI
+
+We deploy perception models on edge devices for robotics and automotive.
+
+Required skills:
+- Strong Python and C++
+- Deep learning frameworks (PyTorch or TensorFlow)
+- Computer vision (object detection, segmentation)
+- Model optimization for embedded/edge (pruning, quantization)
+- Linux
+
+Preferred:
+- ROS2
+- Jetson / embedded hardware experience
+- Sensor fusion (camera, LiDAR, radar)
+
+Experience: 1-3 years.

@@ -1,0 +1,16 @@
+Data Analyst — Operations
+
+Help operations teams make data-driven decisions through dashboards and analysis.
+
+Required skills:
+- SQL
+- Python (pandas, NumPy)
+- Data visualization
+- Communicating insights to non-technical stakeholders
+
+Preferred:
+- Experience with BI tools (Tableau, Power BI)
+- Statistics / A-B testing
+- Cloud data warehouses
+
+Experience: 0-2 years.

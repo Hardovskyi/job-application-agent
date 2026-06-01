@@ -1,0 +1,38 @@
+{
+  "jd_junior_ai_engineer.txt": {
+    "expected_title_contains": "AI Engineer",
+    "expected_required_skills": [
+      "Python",
+      "agent framework",
+      "REST API",
+      "Pydantic",
+      "Git"
+    ],
+    "min_match_score": 25,
+    "max_match_score": 90
+  },
+  "jd_computer_vision_engineer.txt": {
+    "expected_title_contains": "Computer Vision",
+    "expected_required_skills": [
+      "Python",
+      "C++",
+      "PyTorch",
+      "computer vision",
+      "quantization",
+      "Linux"
+    ],
+    "min_match_score": 50,
+    "max_match_score": 100
+  },
+  "jd_data_analyst.txt": {
+    "expected_title_contains": "Data Analyst",
+    "expected_required_skills": [
+      "SQL",
+      "Python",
+      "pandas",
+      "visualization"
+    ],
+    "min_match_score": 20,
+    "max_match_score": 85
+  }
+}

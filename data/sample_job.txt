@@ -1,0 +1,27 @@
+Junior AI Engineer — Acme AI
+
+About Acme AI:
+Acme AI builds developer tools that help teams ship reliable LLM-powered
+features. We care about correctness, evaluation, and clean engineering.
+
+What you'll do:
+- Build and maintain LLM agent workflows (tool use, multi-step tasks)
+- Write Python services and REST APIs
+- Implement structured outputs and evaluation tests for reliability
+- Work with vector databases for retrieval (RAG)
+- Collaborate on observability and tracing for agent runs
+
+Required skills:
+- Strong Python
+- Experience with at least one agent framework (LangGraph, OpenAI Agents SDK, or similar)
+- REST API development (FastAPI a plus)
+- Understanding of structured outputs / Pydantic
+- Git
+
+Preferred skills:
+- RAG and vector databases (Chroma, FAISS, or pgvector)
+- Evaluation / testing of LLM systems
+- Docker and cloud deployment (Render, Railway, AWS)
+- Frontend basics (Streamlit or React)
+
+Experience: 0-2 years. New grads welcome if you have strong projects.
