@@ -5,14 +5,22 @@ Run with:  streamlit run app/ui.py
 from __future__ import annotations
 
 import os
+import sys
 
-import streamlit as st
+# Streamlit Cloud runs `streamlit run app/ui.py`, which only puts the app/
+# folder on sys.path — not the repo root that the `app` package lives in.
+# Add the repo root so `import app...` resolves both locally and on Cloud.
+_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if _ROOT not in sys.path:
+    sys.path.insert(0, _ROOT)
 
-from app import theme
-from app.db import list_applications, save_application
-from app.graph import run_application
-from app.observability import tracing_status
-from app.resume import load_text
+import streamlit as st  # noqa: E402
+
+from app import theme  # noqa: E402
+from app.db import list_applications, save_application  # noqa: E402
+from app.graph import run_application  # noqa: E402
+from app.observability import tracing_status  # noqa: E402
+from app.resume import load_text  # noqa: E402
 
 st.set_page_config(page_title="AI Job Application Agent", page_icon="🤖", layout="wide")
 theme.inject()
