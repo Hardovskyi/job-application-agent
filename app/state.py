@@ -40,5 +40,8 @@ class AgentState(TypedDict, total=False):
     max_revisions: int
     needs_human_review: bool
 
+    # Persistence key for LangGraph SqliteSaver checkpoints
+    thread_id: str
+
     # Observability: a human-readable trace of which agent did what
     trace: Annotated[list[str], append]

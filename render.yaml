@@ -1,0 +1,23 @@
+# Deploy the FastAPI service on Render (Blueprint).
+# Dashboard: New → Blueprint → select this repo / job-application-agent root.
+services:
+  - type: web
+    name: job-application-agent-api
+    runtime: docker
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: LLM_PROVIDER
+        value: openai
+      - key: OPENAI_MODEL
+        value: gpt-4o-mini
+      - key: MAX_REVISIONS
+        value: "2"
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: TAVILY_API_KEY
+        sync: false
+      - key: LANGSMITH_API_KEY
+        sync: false
+      - key: LANGSMITH_PROJECT
+        value: job-application-agent

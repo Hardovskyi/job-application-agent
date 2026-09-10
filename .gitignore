@@ -19,3 +19,7 @@ venv/
 
 # Streamlit
 .streamlit/secrets.toml
+
+.coverage
+htmlcov/
+.pytest_cache/

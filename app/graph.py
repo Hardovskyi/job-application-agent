@@ -8,8 +8,14 @@ Pipeline:
 
 The review->revise->tailor loop with a retry budget is what makes this an
 agentic system rather than a one-shot pipeline.
+
+Compiled graphs use a SQLite checkpointer so every run is durable and
+inspectable by thread_id (survives process restarts).
 """
 from __future__ import annotations
+
+import uuid
+from typing import Any
 
 from langgraph.graph import END, START, StateGraph
 
@@ -21,6 +27,7 @@ from app.agents import (
     skill_gap_agent,
     tailor_agent,
 )
+from app.checkpointing import get_checkpointer
 from app.config import settings
 from app.state import AgentState
 
@@ -69,7 +76,7 @@ def _route_after_review(state: AgentState) -> str:
     return "escalate"
 
 
-def build_graph():
+def build_graph(*, persistent: bool = True):
     g = StateGraph(AgentState)
 
     g.add_node("job_parser", job_parser_agent)
@@ -98,6 +105,8 @@ def build_graph():
     g.add_edge("escalate", "finalize")
     g.add_edge("finalize", END)
 
+    if persistent:
+        return g.compile(checkpointer=get_checkpointer())
     return g.compile()
 
 
@@ -115,18 +124,54 @@ def _prepare_input(text: str, label: str) -> str:
     return text
 
 
-def run_application(resume_text: str, job_text: str) -> AgentState:
-    """Convenience entry point: run the full graph and return final state."""
+def _thread_config(thread_id: str) -> dict[str, Any]:
+    return {"configurable": {"thread_id": thread_id}}
+
+
+def run_application(
+    resume_text: str,
+    job_text: str,
+    *,
+    thread_id: str | None = None,
+    persistent: bool = True,
+    callbacks: list[Any] | None = None,
+) -> AgentState:
+    """Run the full graph and return final state (checkpointed when persistent)."""
     resume_text = _prepare_input(resume_text, "Resume")
     job_text = _prepare_input(job_text, "Job posting")
+    thread_id = thread_id or str(uuid.uuid4())
 
-    graph = build_graph()
+    graph = build_graph(persistent=persistent)
     initial: AgentState = {
         "resume_text": resume_text,
         "job_text": job_text,
         "revision_count": 0,
         "max_revisions": settings.max_revisions,
         "needs_human_review": False,
+        "thread_id": thread_id,
         "trace": [],
     }
-    return graph.invoke(initial)
+
+    config: dict[str, Any] = {}
+    if persistent:
+        config.update(_thread_config(thread_id))
+    if callbacks:
+        config["callbacks"] = callbacks
+
+    result = graph.invoke(initial, config=config or None)
+
+    # Ensure callers always see the thread key even if a node overwrote state.
+    if isinstance(result, dict):
+        result["thread_id"] = thread_id
+    return result
+
+
+def get_application_state(thread_id: str) -> AgentState | None:
+    """Load the latest checkpointed state for a thread (None if unknown)."""
+    graph = build_graph(persistent=True)
+    snapshot = graph.get_state(_thread_config(thread_id))
+    if not snapshot or not snapshot.values:
+        return None
+    values = dict(snapshot.values)
+    values["thread_id"] = thread_id
+    return values  # type: ignore[return-value]

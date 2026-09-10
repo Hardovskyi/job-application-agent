@@ -83,3 +83,23 @@ def list_applications() -> list[sqlite3.Row]:
             "FROM applications ORDER BY id DESC"
         ).fetchall()
     return rows
+
+
+def get_application(application_id: int) -> dict | None:
+    """Return one saved application (including draft / full state JSON)."""
+    init_db()
+    with _connect() as conn:
+        row = conn.execute(
+            "SELECT id, created_at, company, title, match_score, needs_human_review, "
+            "draft_json, full_state_json FROM applications WHERE id = ?",
+            (application_id,),
+        ).fetchone()
+    if row is None:
+        return None
+    data = dict(row)
+    if data.get("draft_json"):
+        data["draft"] = json.loads(data["draft_json"])
+    if data.get("full_state_json"):
+        data["full_state"] = json.loads(data["full_state_json"])
+    data["needs_human_review"] = bool(data.get("needs_human_review"))
+    return data
