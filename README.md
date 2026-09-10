@@ -1,6 +1,6 @@
 # AI Job Application Agent
 
-A multi-agent system that takes a job posting and a résumé and produces tailored application materials — bullets, a cover letter, and a short recruiter message — without inventing experience.
+A multi-agent system that takes a job posting and a resume and produces tailored application materials - bullets, a cover letter, and a short recruiter message - without inventing experience.
 
 Built with **LangGraph**, **Pydantic** structured outputs, tool-using company research, a bounded reviewer loop, **LangSmith** tracing, a **FastAPI** API, and a **Streamlit** UI. Runs are checkpointed to SQLite by `thread_id` so state survives restarts.
 
@@ -10,12 +10,12 @@ Built with **LangGraph**, **Pydantic** structured outputs, tool-using company re
 
 Six agents run inside a LangGraph `StateGraph`:
 
-1. **Job Parser** — extracts role, skills, and requirements  
-2. **Company Research** — ReAct agent with web search  
-3. **Resume Match** — fit score and matched / missing skills  
-4. **Skill Gap** — critical vs nice-to-have gaps  
-5. **Tailor** — writes bullets, cover letter, recruiter note  
-6. **Reviewer** — integrity check; on failure, revises (up to 2 retries) or escalates for human review  
+1. **Job Parser** - extracts role, skills, and requirements  
+2. **Company Research** - ReAct agent with web search  
+3. **Resume Match** - fit score and matched / missing skills  
+4. **Skill Gap** - critical vs nice-to-have gaps  
+5. **Tailor** - writes bullets, cover letter, recruiter note  
+6. **Reviewer** - integrity check; on failure, revises (up to 2 retries) or escalates for human review  
 
 ## Evaluation
 
