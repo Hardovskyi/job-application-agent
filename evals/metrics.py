@@ -9,7 +9,7 @@ from langchain_core.outputs import LLMResult
 
 from app.graph import _is_acceptable
 
-# Approximate list prices for gpt-4o-mini (USD / 1M tokens). Override via env if needed.
+# Approximate gpt-4o-mini list prices (USD / 1M tokens).
 DEFAULT_INPUT_USD_PER_1M = 0.15
 DEFAULT_OUTPUT_USD_PER_1M = 0.60
 
@@ -36,7 +36,7 @@ class UsageTotals:
 
 
 class UsageTracker(BaseCallbackHandler):
-    """Collects token usage from LangChain LLM ends (OpenAI usage_metadata)."""
+    """Collect token usage from LLM callbacks."""
 
     def __init__(self) -> None:
         super().__init__()

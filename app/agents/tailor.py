@@ -1,8 +1,4 @@
-"""Resume Tailoring agent: produces the candidate-facing deliverables.
-
-On a retry, it receives the reviewer's feedback and must address it — this is
-the "act" half of the self-correction loop.
-"""
+"""Tailoring agent: bullets, cover letter, and recruiter note."""
 from __future__ import annotations
 
 from langchain_core.messages import HumanMessage, SystemMessage

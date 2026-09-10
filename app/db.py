@@ -1,8 +1,4 @@
-"""Lightweight SQLite persistence for application runs.
-
-Stores each completed run so the Streamlit dashboard can track applications
-over time. JSON columns keep it schema-simple for a portfolio project.
-"""
+"""SQLite persistence for completed application runs."""
 from __future__ import annotations
 
 import json
@@ -86,7 +82,6 @@ def list_applications() -> list[sqlite3.Row]:
 
 
 def get_application(application_id: int) -> dict | None:
-    """Return one saved application (including draft / full state JSON)."""
     init_db()
     with _connect() as conn:
         row = conn.execute(

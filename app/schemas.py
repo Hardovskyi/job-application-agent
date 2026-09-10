@@ -1,10 +1,4 @@
-"""Pydantic schemas for structured agent outputs.
-
-Every agent that produces structured data returns one of these models via
-LangChain's `.with_structured_output(...)`. This guarantees valid, typed JSON
-between agents instead of free-text parsing — a core requirement of reliable
-agent systems.
-"""
+"""Pydantic models for structured agent outputs."""
 from __future__ import annotations
 
 from pydantic import BaseModel, Field
@@ -39,7 +33,7 @@ class MatchResult(BaseModel):
 
 
 class SkillGapResult(BaseModel):
-    """Prioritized gaps and what to learn."""
+    """Prioritized gaps and learning suggestions."""
 
     critical_gaps: list[str] = Field(
         default_factory=list, description="Must-have skills the candidate lacks"
@@ -52,7 +46,7 @@ class SkillGapResult(BaseModel):
 
 
 class ApplicationDraft(BaseModel):
-    """The candidate-facing deliverables."""
+    """Tailored application materials."""
 
     tailored_bullets: list[str] = Field(
         default_factory=list,
@@ -66,7 +60,7 @@ class ApplicationDraft(BaseModel):
 
 
 class ReviewResult(BaseModel):
-    """Guardrail agent's verdict on a draft."""
+    """Reviewer verdict on a draft."""
 
     passed: bool = Field(description="True if the draft is honest and high quality")
     authenticity_score: int = Field(
@@ -80,5 +74,5 @@ class ReviewResult(BaseModel):
         default_factory=list, description="Other quality/tone problems"
     )
     feedback: str = Field(
-        description="Actionable feedback the tailoring agent can use to revise"
+        description="Actionable feedback the writing agent can use to revise"
     )

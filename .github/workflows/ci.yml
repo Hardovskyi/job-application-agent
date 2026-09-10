@@ -27,7 +27,6 @@ jobs:
 
   eval-harness:
     runs-on: ubuntu-latest
-    # Only burns API credits when the repo secret is configured.
     if: ${{ github.event_name == 'push' && secrets.OPENAI_API_KEY != '' }}
     needs: unit-tests
     steps:

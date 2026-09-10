@@ -1,15 +1,10 @@
-"""Streamlit dashboard for the AI Job Application Agent.
-
-Run with:  streamlit run app/ui.py
-"""
+"""Streamlit UI for the job-application agent."""
 from __future__ import annotations
 
 import os
 import sys
 
-# Streamlit Cloud runs `streamlit run app/ui.py`, which only puts the app/
-# folder on sys.path — not the repo root that the `app` package lives in.
-# Add the repo root so `import app...` resolves both locally and on Cloud.
+# Streamlit Cloud runs this file directly; add repo root for `import app`.
 _ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if _ROOT not in sys.path:
     sys.path.insert(0, _ROOT)
@@ -31,20 +26,18 @@ theme.hero(
     loop_from=4,
 )
 
-# Sidebar: optional bring-your-own-key (lets a public demo run on the visitor's
-# key instead of the owner's, so deploying is safe and free to host).
 with st.sidebar:
     st.subheader("Settings")
     user_key = st.text_input(
         "OpenAI API key (optional)",
         type="password",
-        help="Used only for your session. Leave blank to use the server's key.",
+        help="Session-only. Leave blank to use the server key.",
     )
     if user_key:
         os.environ["OPENAI_API_KEY"] = user_key
     has_key = bool(user_key or os.getenv("OPENAI_API_KEY"))
     if not has_key:
-        st.warning("No OpenAI key configured. Enter one above to run the agents.")
+        st.warning("No OpenAI key configured.")
     st.info(tracing_status())
 
 tab_run, tab_history = st.tabs(["New application", "History"])
@@ -75,7 +68,7 @@ with tab_run:
         if not resolved_resume.strip() or not job_text.strip():
             st.error("Please provide both a resume and a job posting.")
         elif not has_key:
-            st.error("Add an OpenAI API key in the sidebar first.")
+            st.error("OpenAI API key required.")
         else:
             try:
                 with st.spinner("Agents working (parse → research → match → tailor → review)..."):

@@ -1,8 +1,4 @@
-"""Command-line runner.
-
-Example:
-    python -m app.cli --resume data/sample_resume.md --job data/sample_job.txt
-"""
+"""CLI entrypoint for a single application run."""
 from __future__ import annotations
 
 import argparse

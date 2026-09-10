@@ -1,10 +1,4 @@
-"""Provider-agnostic LLM factory.
-
-A single entry point (`get_llm`) returns a LangChain chat model for whichever
-provider is configured. This lets every agent stay provider-independent and
-makes "I built it to swap between OpenAI, Claude, and a local model" a real
-talking point rather than a hardcoded dependency.
-"""
+"""Return a LangChain chat model for the configured provider."""
 from __future__ import annotations
 
 import os
@@ -22,10 +16,7 @@ def get_llm(temperature: float = 0.0) -> BaseChatModel:
 
         api_key = settings.openai_api_key or os.getenv("OPENAI_API_KEY")
         if not api_key:
-            raise RuntimeError(
-                "LLM_PROVIDER=openai but no OpenAI key found. Set OPENAI_API_KEY "
-                "in .env (or enter one in the app sidebar)."
-            )
+            raise RuntimeError("OPENAI_API_KEY is not set.")
         return ChatOpenAI(
             model=settings.openai_model,
             temperature=temperature,
@@ -37,10 +28,7 @@ def get_llm(temperature: float = 0.0) -> BaseChatModel:
 
         api_key = settings.anthropic_api_key or os.getenv("ANTHROPIC_API_KEY")
         if not api_key:
-            raise RuntimeError(
-                "LLM_PROVIDER=anthropic but no Anthropic key found. Set "
-                "ANTHROPIC_API_KEY in .env (or enter one in the app sidebar)."
-            )
+            raise RuntimeError("ANTHROPIC_API_KEY is not set.")
         return ChatAnthropic(
             model=settings.anthropic_model,
             temperature=temperature,
@@ -52,12 +40,11 @@ def get_llm(temperature: float = 0.0) -> BaseChatModel:
             from langchain_ollama import ChatOllama
         except ImportError as exc:  # pragma: no cover - optional dependency
             raise RuntimeError(
-                "LLM_PROVIDER=ollama requires `pip install langchain-ollama` "
-                "and a running `ollama serve`."
+                "Install langchain-ollama and run `ollama serve` for LLM_PROVIDER=ollama."
             ) from exc
         return ChatOllama(model=settings.ollama_model, temperature=temperature)
 
     raise ValueError(
         f"Unknown LLM_PROVIDER '{settings.llm_provider}'. "
-        "Use 'openai', 'anthropic', or 'ollama'."
+        "Expected openai, anthropic, or ollama."
     )

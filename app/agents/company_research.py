@@ -1,10 +1,4 @@
-"""Company Research agent: a true tool-using (ReAct) sub-agent.
-
-Unlike the other nodes (which make a single structured call), this agent runs
-its own reason-act loop: it decides what to search for, calls the web_search
-tool, reads results, and may search again before summarizing. This is the
-"genuine agency + tool use" piece of the system.
-"""
+"""Company research agent (ReAct + web_search)."""
 from __future__ import annotations
 
 from langchain_core.messages import HumanMessage

@@ -1,15 +1,4 @@
-"""FastAPI deployment for the job-application agent.
-
-Run locally:
-    uvicorn app.api:app --reload --port 8000
-
-Endpoints:
-    GET  /health
-    POST /v1/applications          — run the multi-agent pipeline
-    GET  /v1/applications          — list saved application history
-    GET  /v1/applications/{id}     — saved history row by DB id
-    GET  /v1/threads/{thread_id}   — load LangGraph checkpointed state
-"""
+"""FastAPI service for the job-application agent."""
 from __future__ import annotations
 
 from typing import Any
@@ -76,7 +65,7 @@ def create_application(body: ApplicationRequest) -> dict[str, Any]:
         )
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
-    except Exception as exc:  # noqa: BLE001 — surface LLM/config errors cleanly
+    except Exception as exc:  # noqa: BLE001
         raise HTTPException(status_code=500, detail=str(exc)) from exc
 
     application_id = None

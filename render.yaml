@@ -1,5 +1,3 @@
-# Deploy the FastAPI service on Render (Blueprint).
-# Dashboard: New → Blueprint → select this repo / job-application-agent root.
 services:
   - type: web
     name: job-application-agent-api

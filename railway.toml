@@ -1,4 +1,3 @@
-# Railway: set root directory to job-application-agent (or deploy this folder as the service).
 [build]
 builder = "DOCKERFILE"
 dockerfilePath = "Dockerfile"

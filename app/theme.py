@@ -1,8 +1,4 @@
-"""Shared UI theming for the Streamlit app.
-
-Injects a branded dark theme (matching the portfolio site: blue accent, DM Sans /
-JetBrains Mono) plus helpers for a hero header and an agent-pipeline strip.
-"""
+"""Streamlit theme helpers."""
 from __future__ import annotations
 
 import streamlit as st

@@ -1,9 +1,4 @@
-"""Reviewer / Guardrail agent: the system's safety + quality gate.
-
-It judges whether a draft is honest (grounded in the resume) and well-written.
-Its verdict drives the conditional edge that either accepts the draft or loops
-back to the tailoring agent with feedback.
-"""
+"""Reviewer agent: authenticity / integrity gate for drafted materials."""
 from __future__ import annotations
 
 from langchain_core.messages import HumanMessage, SystemMessage

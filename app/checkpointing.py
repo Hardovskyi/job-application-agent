@@ -1,4 +1,4 @@
-"""LangGraph SQLite checkpointer — durable graph state keyed by thread_id."""
+"""LangGraph SQLite checkpointer keyed by thread_id."""
 from __future__ import annotations
 
 import sqlite3
@@ -13,7 +13,6 @@ _checkpointer: SqliteSaver | None = None
 
 
 def get_checkpointer() -> SqliteSaver:
-    """Return a process-wide SqliteSaver (survives restarts via checkpoints.db)."""
     global _conn, _checkpointer
     if _checkpointer is None:
         _conn = sqlite3.connect(str(CHECKPOINT_DB), check_same_thread=False)

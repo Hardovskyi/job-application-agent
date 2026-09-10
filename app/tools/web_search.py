@@ -1,9 +1,4 @@
-"""Web search tool for the company-research agent.
-
-This is a *real* tool the LLM can choose to call: it decides what to search
-for and when. Uses Tavily when a key is available (built for agents), and
-falls back to DuckDuckGo so the project runs with zero API keys.
-"""
+"""Web search tool (Tavily when configured, otherwise DuckDuckGo)."""
 from __future__ import annotations
 
 from langchain_core.tools import tool

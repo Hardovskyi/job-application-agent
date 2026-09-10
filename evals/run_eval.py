@@ -1,17 +1,10 @@
-"""Evaluation harness with resume-ready reliability metrics.
+"""Evaluation harness for reliability metrics.
 
-Measures (over a labeled suite of gold + synthetic job postings):
-  - first_pass_success_rate   : accepted with 0 reviewer revisions
-  - final_success_rate        : accepted after the bounded reviewer loop
-  - structured_output_success : all agent Pydantic outputs present
-  - research_success_rate     : company-research tool path produced a briefing
-  - title / skill_recall / score_in_range checks
-  - avg + p95 latency, estimated API cost/run
+Tracks first-pass vs final success, structured-output validity, research success,
+latency, and estimated API cost.
 
-Examples:
   python -m evals.run_eval --suite gold
   python -m evals.run_eval --suite full --limit 60
-  python -m evals.run_eval --suite full --limit 100 --out evals/results/latest.json
 """
 from __future__ import annotations
 
@@ -51,7 +44,7 @@ def _run_one(case, resume_text: str) -> CaseMetrics:
             latency_s=latency,
             usage=tracker.totals,
         )
-    except Exception as exc:  # noqa: BLE001 — capture per-case failures for the suite
+    except Exception as exc:  # noqa: BLE001
         latency = time.perf_counter() - t0
         return CaseMetrics(
             case_id=case.id,
@@ -79,14 +72,14 @@ def main() -> None:
         "--suite",
         choices=("gold", "synthetic", "full"),
         default="gold",
-        help="gold=3 labeled JDs (CI); full=gold+synthetic (~63); synthetic=generated only",
+        help="gold=3 labeled JDs; full=gold+synthetic; synthetic=generated only",
     )
     parser.add_argument("--limit", type=int, default=None, help="Cap number of cases")
     parser.add_argument(
         "--out",
         type=Path,
         default=None,
-        help="Write JSON summary+rows (default: evals/results/latest.json)",
+        help="Write JSON summary (default: evals/results/latest.json)",
     )
     args = parser.parse_args()
 
